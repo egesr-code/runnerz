@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>dev.danvega</groupId>
 	<artifactId>runnerz</artifactId>
-	<version>1.0</version>
+	<version>1.0-Spring Data</version>
 	<name>runnerz</name>
 	<description>Demo project for Spring Boot</description>
 	<url />
@@ -55,7 +55,7 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -86,9 +86,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>		
+				<!-- Para que no de el warning 
 				<configuration>
 					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
 				</configuration>				
+				-->
 			</plugin>
 		</plugins>
 	</build>
