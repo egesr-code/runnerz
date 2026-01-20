@@ -1,8 +1,9 @@
 package dev.danvega.runnerz.run;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 /**
  * REST controller for managing running activities.
@@ -36,7 +39,7 @@ public class RunController {
 	public RunController(RunRepository runRepository) {
 		this.runRepository = runRepository;
 	}
-	
+
 	/**
 	 * Retrieves all runs from the database.
 	 *
@@ -60,9 +63,8 @@ public class RunController {
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size)
 	{
-		List<Run> runs = runRepository.findAll(page, size);
-		int totalElements = runRepository.count();
-		return new PagedResponse<>(runs, page, size, totalElements);
+		Page<Run> runsPage = runRepository.findAll(PageRequest.of(page, size));
+		return new PagedResponse<>(runsPage.getContent(), page, size, (int) runsPage.getTotalElements());
 	}
 
 	/**
@@ -92,7 +94,7 @@ public class RunController {
 	@PostMapping("")
 	public void create (@Valid @RequestBody Run run)
 	{
-		runRepository.create(run);
+		runRepository.save(run);
 	}
 
 
@@ -106,7 +108,8 @@ public class RunController {
 	@PutMapping("/{id}")
 	public void update (@Valid  @RequestBody Run run, @PathVariable  Integer id)
 	{
-		runRepository.update(run, id);
+		run.setId(id);
+		runRepository.save(run);
 	}
 
 	/**
@@ -118,7 +121,7 @@ public class RunController {
 	@DeleteMapping("/{id}")
 	public void delete (@PathVariable Integer id)
 	{
-		runRepository.delete(id);
+		runRepository.deleteById(id);
 	}
-	
+
 }
