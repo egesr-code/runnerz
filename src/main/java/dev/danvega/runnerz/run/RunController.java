@@ -17,25 +17,46 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
+/**
+ * REST controller for managing running activities.
+ * Provides CRUD endpoints for runs at /api/runs.
+ */
 @RestController
 @RequestMapping("/api/runs")
 public class RunController {
 
-	
+
 	private final RunRepository runRepository;
-	
+
+	/**
+	 * Constructs a RunController with the specified repository.
+	 *
+	 * @param runRepository the repository for run data access
+	 */
 	public RunController(RunRepository runRepository) {
 		this.runRepository = runRepository;
 	}
 	
+	/**
+	 * Retrieves all runs from the database.
+	 *
+	 * @return a list of all runs
+	 */
 	@GetMapping("")
-	List<Run> findAll ()
+	public List<Run> findAll ()
 	{
 		return runRepository.findAll();
 	}
 
+	/**
+	 * Retrieves a paginated list of runs.
+	 *
+	 * @param page the page number (zero-based), defaults to 0
+	 * @param size the number of elements per page, defaults to 10
+	 * @return a paginated response containing runs and pagination metadata
+	 */
 	@GetMapping("/paged")
-	PagedResponse<Run> findAllPaged(
+	public PagedResponse<Run> findAllPaged(
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size)
 	{
@@ -43,36 +64,59 @@ public class RunController {
 		int totalElements = runRepository.count();
 		return new PagedResponse<>(runs, page, size, totalElements);
 	}
-	
+
+	/**
+	 * Retrieves a specific run by its identifier.
+	 *
+	 * @param id the unique identifier of the run
+	 * @return the run with the specified id
+	 * @throws RunNotFoundException if no run exists with the given id
+	 */
 	@GetMapping("/{id}")
-	Run findById(@PathVariable Integer id)
+	public Run findById(@PathVariable Integer id)
 	{
 		Optional<Run> run = runRepository.findById(id);
-		
+
 		if (run.isEmpty())
 			throw new RunNotFoundException();
-		
+
 		return run.get();
 	}
-	
+
+	/**
+	 * Creates a new run in the database.
+	 *
+	 * @param run the run data to create (validated)
+	 */
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("")
-	void create (@Valid @RequestBody Run run)
+	public void create (@Valid @RequestBody Run run)
 	{
 		runRepository.create(run);
 	}
-	
 
+
+	/**
+	 * Updates an existing run with the specified id.
+	 *
+	 * @param run the updated run data (validated)
+	 * @param id the unique identifier of the run to update
+	 */
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@PutMapping("/{id}")
-	void update (@Valid  @RequestBody Run run, @PathVariable  Integer id)
+	public void update (@Valid  @RequestBody Run run, @PathVariable  Integer id)
 	{
 		runRepository.update(run, id);
 	}
-	
+
+	/**
+	 * Deletes a run by its identifier.
+	 *
+	 * @param id the unique identifier of the run to delete
+	 */
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	void delete (@PathVariable Integer id)
+	public void delete (@PathVariable Integer id)
 	{
 		runRepository.delete(id);
 	}

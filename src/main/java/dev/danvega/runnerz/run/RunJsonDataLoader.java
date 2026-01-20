@@ -11,13 +11,23 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Component that loads initial run data from a JSON file on application startup.
+ * Only loads data if the database is empty.
+ */
 @Component
 public class RunJsonDataLoader implements CommandLineRunner {
 
 	private static final Logger log = LoggerFactory.getLogger(RunJsonDataLoader.class);
 	private RunRepository runRepository;
 	private ObjectMapper objectMapper;
-	
+
+	/**
+	 * Constructs a RunJsonDataLoader with the required dependencies.
+	 *
+	 * @param runRepository the repository for persisting run data
+	 * @param objectMapper the Jackson ObjectMapper for JSON deserialization
+	 */
 	public RunJsonDataLoader(RunRepository runRepository, ObjectMapper objectMapper) {
 		this.runRepository = runRepository;
 		this.objectMapper = objectMapper;

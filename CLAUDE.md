@@ -2,28 +2,60 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Development Environment
+
+**IMPORTANT**: This project is developed on Windows 11 with Git Bash as the shell. Due to this mixed environment, Maven commands must be executed using this specific syntax:
+
+```bash
+JAVA_HOME="C:\\Program Files\\Zulu\\zulu-25" cmd //c "cd /d C:\\Users\\eduardo.gonzalezest\\eclipse-workspace\\runnerz && .\\mvnw.cmd <maven-goal>"
+```
+
+Replace `<maven-goal>` with the desired Maven command (e.g., `clean package`, `test`, `javadoc:javadoc`).
+
 ## Build and Run Commands
 
 This project uses Maven Wrapper (no global Maven installation required).
 
+### Standard syntax (native Windows CMD/PowerShell)
+
 ```bash
 # Build the project
-./mvnw clean package
+mvnw.cmd clean package
 
 # Run the application
-./mvnw spring-boot:run
+mvnw.cmd spring-boot:run
 
 # Run all tests
-./mvnw test
+mvnw.cmd test
 
-# Run a single test class
-./mvnw test -Dtest=RunControllerTest
-
-# Run a single test method
-./mvnw test -Dtest=RunControllerTest#testMethodName
+# Generate Javadoc
+mvnw.cmd javadoc:javadoc
 ```
 
-On Windows, use `mvnw.cmd` instead of `./mvnw`.
+### Git Bash on Windows syntax (current environment)
+
+```bash
+# Build the project
+JAVA_HOME="C:\\Program Files\\Zulu\\zulu-25" cmd //c "cd /d C:\\Users\\eduardo.gonzalezest\\eclipse-workspace\\runnerz && .\\mvnw.cmd clean package"
+
+# Run all tests
+JAVA_HOME="C:\\Program Files\\Zulu\\zulu-25" cmd //c "cd /d C:\\Users\\eduardo.gonzalezest\\eclipse-workspace\\runnerz && .\\mvnw.cmd test"
+
+# Generate Javadoc
+JAVA_HOME="C:\\Program Files\\Zulu\\zulu-25" cmd //c "cd /d C:\\Users\\eduardo.gonzalezest\\eclipse-workspace\\runnerz && .\\mvnw.cmd javadoc:javadoc"
+
+# Run a single test class
+JAVA_HOME="C:\\Program Files\\Zulu\\zulu-25" cmd //c "cd /d C:\\Users\\eduardo.gonzalezest\\eclipse-workspace\\runnerz && .\\mvnw.cmd test -Dtest=RunControllerTest"
+```
+
+### Linux/macOS syntax
+
+```bash
+./mvnw clean package
+./mvnw spring-boot:run
+./mvnw test
+./mvnw javadoc:javadoc
+```
 
 ## Architecture
 
