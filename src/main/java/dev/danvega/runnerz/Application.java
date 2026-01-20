@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
-	// PRUEBA PARA HACER UN PULL REQUEST
+	// PRUEBA 2 PARA HACER UN PULL REQUEST
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 
