@@ -48,6 +48,8 @@ public class RunController {
 	@GetMapping("")
 	public List<Run> findAll ()
 	{
+		String s = null;
+		s.toString();
 		return runRepository.findAll();
 	}
 
